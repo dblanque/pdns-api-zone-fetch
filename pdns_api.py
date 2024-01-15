@@ -71,7 +71,7 @@ if argv.output_file:
 					line_out = f"{d}"
 					if argv.prefix and len(argv.prefix) > 1:
 						line_out = argv.prefix + line_out
-					if argv.suffix and len(argv.prefix) > 1:
+					if argv.suffix and len(argv.suffix) > 1:
 						line_out = line_out + argv.suffix
 					f.write(f"{indent_string}{line_out}\n")
 				if argv.footer and len(argv.footer) > 1:
