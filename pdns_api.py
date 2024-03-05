@@ -36,6 +36,12 @@ main_parser.add_argument('-i', '--indent',
 						 default=False,
 						 action='store_true'
 						)
+main_parser.add_argument('-a', '--all-domains', 
+						 required=False,
+						 help="Use all domains including secondaries and slaves", 
+						 default=False,
+						 action='store_true'
+						)
 argv = main_parser.parse_args()
 argv.prefix: str
 argv.suffix: str
@@ -53,7 +59,8 @@ except:
 for pdns_d in pdns_api_request.json():
 	d_type = str(pdns_d["kind"]).lower()
 	pdns_d = str(pdns_d["name"])
-	if pdns_d.rstrip('.') in argv.exclude_domains or d_type in PDNS_SLAVE_TYPES: continue
+	if pdns_d.rstrip('.') in argv.exclude_domains or (d_type in PDNS_SLAVE_TYPES and not argv.all_domains):
+		continue
 	if not reverse_domain_validator(pdns_d):
 		domains.append(pdns_d.rstrip('.'))
 
