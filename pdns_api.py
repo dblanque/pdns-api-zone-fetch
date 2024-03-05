@@ -86,7 +86,10 @@ if argv.output_file:
 		except:
 			raise
 else:
-	print_c(bcolors.L_BLUE, "PowerDNS API Request Result (Only Authoritative Zones)")
+	if argv.all_domains:
+		print_c(bcolors.L_BLUE, "PowerDNS API Request Result (Fetching all Zones)")
+	else:
+		print_c(bcolors.L_BLUE, "PowerDNS API Request Result (Only Authoritative Zones)")
 	print(domains)
 
 sys.exit(0)
