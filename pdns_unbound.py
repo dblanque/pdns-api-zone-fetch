@@ -20,6 +20,12 @@ main_parser.add_argument('-o', '--output-file', required=False, help="Output fil
 main_parser.add_argument('-e', '--exclude-domains', required=False, help="Domain(s) to exclude", default=list(), nargs='+')
 main_parser.add_argument('-d', '--dns-address', required=True, help="DNS Resolver Address to Forward Internal Zones To")
 main_parser.add_argument('-p', '--dns-port', required=False, help="DNS Resolver Port to Forward Internal Zones To", default=53)
+main_parser.add_argument('-a', '--all-domains', 
+						 required=False,
+						 help="Use all domains including secondaries and slaves", 
+						 default=False,
+						 action='store_true'
+						)
 argv = main_parser.parse_args()
 try: int(argv.dns_port)
 except: raise TypeError("DNS Port must be an Integer.")
@@ -33,7 +39,9 @@ except:
 for pdns_d in pdns_api_request.json():
 	d_type = str(pdns_d["kind"]).lower()
 	pdns_d = str(pdns_d["name"])
-	if pdns_d.rstrip('.') in argv.exclude_domains or d_type in PDNS_SLAVE_TYPES: continue
+	
+	if pdns_d.rstrip('.') in argv.exclude_domains or (d_type in PDNS_SLAVE_TYPES and not argv.all_domains):
+		continue
 	if not reverse_domain_validator(pdns_d):
 		domains.append(pdns_d.rstrip('.'))
 
