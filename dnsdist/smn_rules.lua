@@ -57,7 +57,7 @@ local function getSmnListFromFile(filename)
 end
 
 local function setSMNRules()
-	AuthDomains = getSmnListFromFile("/etc/dnsdist/01_smn_domains.lua");
+	AuthDomains = getSmnListFromFile("/etc/dnsdist/smn_domains.txt");
 	AuthDomainsRule = SuffixMatchNodeRule(AuthDomains);
 	addAction(AuthDomainsRule, PoolAction('auth'));
 end
