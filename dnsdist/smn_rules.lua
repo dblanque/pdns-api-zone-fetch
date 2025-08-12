@@ -70,3 +70,6 @@ function reloadSMNRules()
 
 	setSMNRules()
 end
+
+-- Set SMN Rules at start
+reloadSMNRules()
