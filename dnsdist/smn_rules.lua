@@ -65,7 +65,7 @@ local function setSMNRules()
 		PoolAction('auth'),
 		{name=AuthDomainsRuleName}
 	);
-	mvRuleToTop(AuthDomainsRuleAction)
+	mvRuleToTop(AuthDomainsRule)
 end
 
 function reloadSMNRules()
