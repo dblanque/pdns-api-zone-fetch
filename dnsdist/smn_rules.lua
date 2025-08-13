@@ -1,7 +1,8 @@
 -- Lua
 
 -- Track SMN rule
-AuthDomainsRule = nil
+AuthDomainsRuleName = "auth-domains-pool-rule-main"
+AuthDomainsRuleUuid = "auth-domains-pool-rule-0001"
 
 local function empty_str(s)
 	return s == nil or s == ''
@@ -59,15 +60,13 @@ end
 local function setSMNRules()
 	local AuthDomains = getSmnListFromFile("/etc/dnsdist/smn_domains.txt");
 	AuthDomainsRule = SuffixMatchNodeRule(AuthDomains);
-	addAction(AuthDomainsRule, PoolAction('auth'));
+	addAction(AuthDomainsRule, PoolAction('auth'), {
+		name=AuthDomainsRuleName,
+		uuid=AuthDomainsRuleUuid
+	});
 end
 
 function reloadSMNRules()
-	-- Remove Previous Rule
-	if AuthDomainsRule then
-		rmRule(AuthDomainsRule)
-	end
-
 	setSMNRules()
 end
 
