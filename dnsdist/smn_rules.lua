@@ -2,6 +2,7 @@
 
 -- Track SMN rule
 AuthDomainsRuleName = "auth-domains-pool-rule-main"
+AuthDomainsRuleTargetIndex = AuthDomainsRuleTargetIndex or 0
 AuthDomainsRuleAction = nil
 
 local function empty_str(s)
@@ -66,6 +67,7 @@ local function setSMNRules()
 		{name=AuthDomainsRuleName}
 	);
 	mvRuleToTop()
+	mvRule(0, AuthDomainsRuleTargetIndex)
 end
 
 function reloadSMNRules()
