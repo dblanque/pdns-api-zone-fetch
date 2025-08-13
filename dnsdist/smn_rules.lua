@@ -2,6 +2,7 @@
 
 -- Track SMN rule
 AuthDomainsRuleName = "auth-domains-pool-rule-main"
+AuthDomainsRuleUuid = "auth-rule-0001"
 
 local function empty_str(s)
 	return s == nil or s == ''
@@ -59,10 +60,18 @@ end
 local function setSMNRules()
 	local AuthDomains = getSmnListFromFile("/etc/dnsdist/smn_domains.txt");
 	AuthDomainsRule = SuffixMatchNodeRule(AuthDomains);
-	addAction(AuthDomainsRule, PoolAction('auth'), {name=AuthDomainsRuleName});
+	addAction(AuthDomainsRule, PoolAction('auth'), {
+		name=AuthDomainsRuleName,
+		uuid=AuthDomainsRuleUuid
+	});
 end
 
 function reloadSMNRules()
+	-- Remove Previous Rule
+	local ok, result = pcall(function()
+		return rmRule(AuthDomainsRuleUuid)
+	end)
+
 	setSMNRules()
 end
 
